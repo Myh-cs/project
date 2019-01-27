@@ -1,0 +1,29 @@
+{
+    "total": 0,
+    "data": [
+        {
+            "id": "f5a2e9da63c52dfa0163fb91198754b5",
+            "jid": "30113",
+            "type": "1",
+            "location_x": "108.921625",
+            "location_y": "34.172188",
+            "address": "陕西省西安市长安区韦曲北街",
+            "time": "07:53",
+            "signState": "2",
+            "date": "2018-06-14"
+        },
+        {
+            "id": "f5a2e9da63c52dfa0163fbc5cf0f55ca",
+            "jid": "20001",
+            "type": "1",
+            "location_x": "108.91759404911",
+            "location_y": "34.21408952079",
+            "address": "陕西启天医星科技有限公司",
+            "time": "08:50",
+            "signState": "2",
+            "date": "2018-06-14"
+        }
+    ],
+    "returnCode": 200,
+    "returnMsg": null
+}

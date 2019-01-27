@@ -1,0 +1,18 @@
+{
+    "total": 0,
+    "data": [
+        {
+            "id": "f5a2e9da63c52dfa0163dcd7b97929d3",
+            "jid": "20002",
+            "type": "1",
+            "location_x": "107.133592",
+            "location_y": "34.384685",
+            "address": "陕西省宝鸡市渭滨区宝福路43号",
+            "time": "08:41",
+            "signState": "2",
+            "date": "2018-06-08"
+        }
+    ],
+    "returnCode": 200,
+    "returnMsg": null
+}

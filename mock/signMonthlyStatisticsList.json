@@ -1,0 +1,25 @@
+{
+    "total": 0,
+    "data": {
+        "pageSize": 15,
+        "offset": 0,
+        "total": 10,
+        "data": [
+            {
+                "address_": "陕西省西安市新城区自强东路1074号",
+                "id_": "f5a2e9da63c52dfa0163e00234913063",
+                "time_": "23:27",
+                "signstate_": "4",
+                "count": 1,
+                "location_x_": "108.95673697398",
+                "jid_": "20007",
+                "location_y_": "34.284688948666",
+                "NAME_": "雷磊",
+                "type_": "2",
+                "date_": "2018-06-08"
+            }
+        ],
+        "returnCode": 200,
+        "returnMsg": null
+    }
+}
