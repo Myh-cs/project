@@ -22,12 +22,7 @@ export default {
     },
   },
   effects: {
-    *detailList(
-      {
-        payload,
-      },
-      { call, put }
-    ) {
+    *detailList({ payload }, { call, put }) {
       try {
         Toast.loading('Loading...', 100);
         // const { pageNumber,
@@ -37,7 +32,9 @@ export default {
         //   cusId,
         // } = payload;
         const {
-          data: { data },
+          data: {
+            data: { data },
+          },
         } = yield call(Service.detailList, payload);
         Toast.hide();
         yield put({ type: 'save', payload: { detailList: data } });
@@ -47,12 +44,7 @@ export default {
         console.log(err);
       }
     },
-    * getCustomer(
-      {
-        payload,
-      },
-      { call, put }
-    ) {
+    *getCustomer({ payload }, { call, put }) {
       try {
         Toast.loading('Loading...', 100);
         const {
@@ -66,12 +58,7 @@ export default {
         console.log(err);
       }
     },
-    * getEmployee(
-      {
-        payload,
-      },
-      { call, put, select }
-    ) {
+    *getEmployee({ payload }, { call, put, select }) {
       try {
         Toast.loading('Loading...', 100);
         const { uid } = yield select(state => state.kaoqin);
@@ -86,7 +73,7 @@ export default {
         console.log(err);
       }
     },
-    * addDetail(
+    *addDetail(
       {
         payload: { values },
       },
@@ -104,7 +91,7 @@ export default {
         console.log(err);
       }
     },
-    * getContact(
+    *getContact(
       {
         payload: { clientId },
       },
@@ -126,12 +113,15 @@ export default {
         console.log(err);
       }
     },
-    * getdefendType({ payload: { type }, }, { call, put }) {
+    *getdefendType(
+      {
+        payload: { type },
+      },
+      { call, put }
+    ) {
       try {
         Toast.loading('Loading...', 100);
-        const {
-          data,
-        } = yield call(Service.getdefendType, { type });
+        const { data } = yield call(Service.getdefendType, { type });
         Toast.hide();
         yield put({ type: 'save', payload: { typeDetail: data } });
         console.log(data, 'fetchMonthPersonList');
@@ -140,7 +130,12 @@ export default {
         console.log(err);
       }
     },
-    * projectList({ payload: { clientId, projectName }, }, { call, put }) {
+    *projectList(
+      {
+        payload: { clientId, projectName },
+      },
+      { call, put }
+    ) {
       try {
         Toast.loading('Loading...', 100);
         const {
@@ -154,7 +149,12 @@ export default {
         console.log(err);
       }
     },
-    * detail({ payload: { detailId }, }, { call, put }) {
+    *detail(
+      {
+        payload: { detailId },
+      },
+      { call, put }
+    ) {
       try {
         Toast.loading('Loading...', 100);
         const {
@@ -168,7 +168,12 @@ export default {
         console.log(err);
       }
     },
-    * addDisscuss({ payload: { uid, planId, detail }, }, { call, put }) {
+    *addDisscuss(
+      {
+        payload: { uid, planId, detail },
+      },
+      { call, put }
+    ) {
       try {
         Toast.loading('Loading...', 100);
         const {
@@ -181,7 +186,12 @@ export default {
         console.log(err);
       }
     },
-    * getDiscuss({ payload: { planId }, }, { call, put }) {
+    *getDiscuss(
+      {
+        payload: { planId },
+      },
+      { call, put }
+    ) {
       try {
         Toast.loading('Loading...', 100);
         const {

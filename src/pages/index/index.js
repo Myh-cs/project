@@ -52,7 +52,7 @@ class Index extends PureComponent {
     const {
       modelState: {
         page,
-        dataSource = [
+        detailList = [
           {
             img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
             title: 'Meet hotel',
@@ -91,17 +91,7 @@ class Index extends PureComponent {
           }}
         >
           <div>
-            <LeftList
-              data={[
-                {
-                  defendTypeNm: '类型',
-                  id: '12313',
-                  proName: '项目名',
-                  defendUserName: '维护人',
-                  tiem: '时间',
-                },
-              ]}
-            />
+            <LeftList data={detailList} />
           </div>
           <div>
             <RightList
