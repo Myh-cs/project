@@ -17,14 +17,11 @@ class Index extends PureComponent {
   componentDidMount() {
     const {
       dispatch,
-      location: {
-        query: { uid },
+      match: {
+        params: { id },
       },
-      modelState,
     } = this.props;
-    dispatch({ type: 'kaoqin/save', payload: { uid } });
-    dispatch({ type: 'kaoqin/detailList', payload: { uid } });
-    Toast.hide();
+    dispatch({ type: 'kaoqin/detail', payload: { detailId: id } });
   }
 
   onChange = (tab, index) => {
@@ -142,7 +139,7 @@ class Index extends PureComponent {
           <TextareaItem
             disabled
             {...getFieldProps('count', {
-              initialValue: detail.fendContent,
+              initialValue: detail.defendContent,
             })}
             rows={4}
           />

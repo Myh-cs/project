@@ -6,8 +6,8 @@ import { withRouter } from 'dva/router';
 const { Item } = List;
 const { Brief } = Item;
 class MonthList extends React.PureComponent {
-  onCheck = (num, jid) => {
-    this.props.history.push('/PageA');
+  onCheck = id => {
+    this.props.history.push(`/PageA/${id}`);
   };
 
   render() {
@@ -25,7 +25,7 @@ class MonthList extends React.PureComponent {
                 wrap
                 extra={item.tiem}
                 onClick={() => {
-                  this.onCheck();
+                  this.onCheck(item.id);
                 }}
               >
                 {item.proName}

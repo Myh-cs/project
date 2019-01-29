@@ -22,7 +22,7 @@ class Index extends PureComponent {
       modelState,
     } = this.props;
     dispatch({ type: 'kaoqin/save', payload: { uid } });
-    dispatch({ type: 'kaoqin/detailList', payload: { uid } });
+    dispatch({ type: 'kaoqin/detailList', payload: { uid, status: 1 } });
     Toast.hide();
   }
 
@@ -30,10 +30,16 @@ class Index extends PureComponent {
     const { dispatch } = this.props;
     switch (index) {
       case 0:
-        dispatch({ type: 'kaoqin/save', payload: { pageType: 0 } });
+        dispatch({
+          type: 'kaoqin/detailList',
+          payload: { uid: this.props.modelState.uid, status: 1 },
+        });
         break;
       case 1:
-        dispatch({ type: 'kaoqin/save', payload: { pageType: 1 } });
+        dispatch({
+          type: 'kaoqin/detailList',
+          payload: { uid: this.props.modelState.uid, status: 2 },
+        });
         break;
       default:
         break;
@@ -50,27 +56,7 @@ class Index extends PureComponent {
       },
     ];
     const {
-      modelState: {
-        page,
-        detailList = [
-          {
-            img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
-            title: 'Meet hotel',
-            des: '不是所有的兼职汪都需要风吹日晒',
-          },
-          {
-            img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-            title: "McDonald's invites you",
-            des: '不是所有的兼职汪都需要风吹日晒',
-          },
-          {
-            img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-            title: 'Eat the week',
-            des: '不是所有的兼职汪都需要风吹日晒',
-          },
-        ],
-      },
-      listLoading,
+      modelState: { page, detailList, detailList2, listLoading },
       dispatch,
       history,
     } = this.props;
@@ -94,17 +80,7 @@ class Index extends PureComponent {
             <LeftList data={detailList} />
           </div>
           <div>
-            <RightList
-              data={[
-                {
-                  defendTypeNm: '类型',
-                  id: '12313',
-                  proName: '项目名',
-                  defendUserName: '维护人',
-                  tiem: '时间',
-                },
-              ]}
-            />
+            <RightList data={detailList2} />
           </div>
         </Tabs>
         <Button

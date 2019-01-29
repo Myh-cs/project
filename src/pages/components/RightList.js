@@ -1,12 +1,15 @@
 import React from 'react';
 import { connect } from 'dva';
-import { List } from 'antd-mobile';
+import { List, Button } from 'antd-mobile';
 import { withRouter } from 'dva/router';
 
 const { Item } = List;
 const { Brief } = Item;
 class MonthList extends React.PureComponent {
-  onCheck = (num, jid) => {};
+
+  onCheck = id => {
+    this.props.history.push(`/PageB/${id}`);
+  };
 
   render() {
     const { modelState, data, history } = this.props;
@@ -23,7 +26,7 @@ class MonthList extends React.PureComponent {
                 wrap
                 extra={item.tiem}
                 onClick={() => {
-                  this.onCheck();
+                  this.onCheck(item.id);
                 }}
               >
                 {item.proName}

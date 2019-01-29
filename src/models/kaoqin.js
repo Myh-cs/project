@@ -1,11 +1,14 @@
 import { Toast } from 'antd-mobile';
 import router from 'umi/router';
 import * as Service from '../services/kaoqin';
+import { is } from 'css-select';
 
 export default {
   namespace: 'kaoqin',
   state: {
     detailList: [],
+    detailList2: [],
+    status: 1,
     customerList: [],
     employee: [],
     contact: {},
@@ -36,9 +39,14 @@ export default {
             data: { data },
           },
         } = yield call(Service.detailList, payload);
+        if (payload.status === 1) {
+          yield put({ type: 'save', payload: { detailList: data } });
+          console.log(data, 1);
+        } else if (payload.status === 2) {
+          yield put({ type: 'save', payload: { detailList2: data } });
+          console.log(data, 2);
+        }
         Toast.hide();
-        yield put({ type: 'save', payload: { detailList: data } });
-        console.log(data);
       } catch (err) {
         Toast.hide();
         console.log(err);
@@ -161,7 +169,7 @@ export default {
           data: { data },
         } = yield call(Service.detail, { detailId });
         Toast.hide();
-        yield put({ type: 'save', payload: { detail: data } });
+        yield put({ type: 'save', payload: { detail: data[0] } });
         console.log(data, 'fetchdetail');
       } catch (err) {
         Toast.hide();
