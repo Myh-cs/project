@@ -26,6 +26,16 @@ class Index extends PureComponent {
     Toast.hide();
   }
 
+  createPlan = () => {
+    const {
+      history,
+      location: {
+        query: { uid },
+      },
+    } = this.props;
+    history.push('/New');
+  };
+
   onChange = (tab, index) => {
     const { dispatch } = this.props;
     switch (index) {
@@ -64,7 +74,13 @@ class Index extends PureComponent {
       <div>
         <div className={styles.header}>
           项目维护列表{' '}
-          <Button className={styles.addButton} type="primary" inline size="small">
+          <Button
+            onClick={this.createPlan}
+            className={styles.addButton}
+            type="primary"
+            inline
+            size="small"
+          >
             新增
           </Button>
         </div>
