@@ -6,7 +6,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { Tabs, ListView, Toast, Button } from 'antd-mobile';
+import { Tabs, ListView, SearchBar, SegmentedControl, Toast, Button } from 'antd-mobile';
 import { connect } from 'dva';
 import styles from './index.less';
 import LeftList from '../components/LeftList';
@@ -39,6 +39,22 @@ class Index extends PureComponent {
     } = this.props;
     history.push('/New');
   };
+
+  onValueChange = value => {
+    console.log(value);
+  };
+
+  onSearchChange = value => {
+    console.log(value);
+  };
+
+  onSubmit = value => {
+    console.log(value, 'sub');
+  };
+
+  onClear= value =>{
+    console.log(value, 'clear');
+  }
 
   onChange = (tab, index) => {
     const { dispatch } = this.props;
@@ -87,6 +103,16 @@ class Index extends PureComponent {
           >
             新增
           </Button>
+        </div>
+        <div>
+          <SegmentedControl values={['Segment1', 'Segment2']} onValueChange={this.onValueChange} />
+          <SearchBar
+            placeholder="Search"
+            onChange={this.onSearchChange}
+            onSubmit={this.onSubmit}
+            onClear={this.onClear}
+            maxLength={8}
+          />
         </div>
         <Tabs
           tabs={tabs}

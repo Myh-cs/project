@@ -206,7 +206,7 @@ class Index extends PureComponent {
             rows={2}
           />
         </List>
-        {/* <Card full style={{ margin: '1rem 0' }}>
+        <Card full style={{ margin: '1rem 0' }}>
           <Card.Header
             title="用户评价"
             extra={
@@ -242,7 +242,7 @@ class Index extends PureComponent {
               )}
             </List.Item>
           </Card.Body>
-        </Card> */}
+        </Card>
         <Card full style={{ margin: '1rem 0' }}>
           <Card.Header
             title="部门考核"

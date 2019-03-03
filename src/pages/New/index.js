@@ -6,7 +6,16 @@
  */
 
 import React, { PureComponent } from 'react';
-import { InputItem, TextareaItem, List, Toast, Button, Picker, DatePicker } from 'antd-mobile';
+import {
+  InputItem,
+  TextareaItem,
+  List,
+  SearchBar,
+  Toast,
+  Button,
+  Picker,
+  DatePicker,
+} from 'antd-mobile';
 import { connect } from 'dva';
 import { createForm } from 'rc-form';
 import styles from './index.less';
@@ -14,7 +23,25 @@ import LeftList from '../components/LeftList';
 import RightList from '../components/RightList';
 import moment from 'moment';
 
+const debounce = (fn, delay = 500) => {
+  let handle;
+  return e => {
+    // 取消之前的延时调用
+    clearTimeout(handle);
+    handle = setTimeout(() => {
+      fn(e);
+    }, delay);
+  };
+};
+
 class Index extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cname: '',
+    };
+  }
+
   componentDidMount() {
     const {
       dispatch,
@@ -26,6 +53,27 @@ class Index extends PureComponent {
     dispatch({ type: 'kaoqin/getdefendType', payload: { type: 1 } });
     console.log(uid, status, loading, this.props.modelState);
   }
+
+  onSearchChange = value => {
+    const fun = () => {
+      console.log(value);
+      const {
+        dispatch,
+        modelState: { uid },
+      } = this.props;
+      dispatch({ type: 'kaoqin/getCustomer', payload: { uid, name:value, noloading: true } });
+    };
+    this.setState({ cname: value });
+    debounce(fun(), 500);
+  };
+
+  onSearchSubmit = value => {
+    console.log(value, 'sub');
+  };
+
+  onClear = value => {
+    console.log(value, 'clear');
+  };
 
   onSubmit = () => {
     const {
@@ -91,7 +139,7 @@ class Index extends PureComponent {
     console.log(modelState.customerList, 'customerList');
     console.log(modelState.contact, 'contact');
     console.log(modelState.projectList, 'projectList');
-
+    const { cname } = this.state;
     return (
       <div>
         <div className={styles.header}>
@@ -113,7 +161,18 @@ class Index extends PureComponent {
             cols={1}
             extra="客户名称"
             data={modelState.customerList.map(v => ({ value: v.id, label: v.customerName }))}
-            title="客户名称"
+            title={
+              <div className={styles.search}>
+                <SearchBar
+                  className={styles.search}
+                  value={cname}
+                  placeholder="客户名称"
+                  onChange={this.onSearchChange}
+                  onSubmit={this.onSearchSubmit}
+                  onClear={this.onClear}
+                />
+              </div>
+            }
             {...getFieldProps('customerNumber', {
               rules: [{ required: true, message: '请选择客户名称' }],
             })}
