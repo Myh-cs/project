@@ -27,6 +27,7 @@ class Index extends PureComponent {
     dispatch({ type: 'kaoqin/getDefendDiscuss', payload: { defendId: id } });
     dispatch({ type: 'kaoqin/getDiscuss', payload: { planId: id } });
     dispatch({ type: 'kaoqin/getdefendType', payload: { type: 2 } });
+    dispatch({ type: 'kaoqin/getdefendType', payload: { type: 1 } });
     dispatch({ type: 'kaoqin/getdefendType', payload: { type: 3 } });
     dispatch({ type: 'kaoqin/getdefendType', payload: { type: 4 } });
     dispatch({ type: 'kaoqin/getdefendType', payload: { type: 5 } });

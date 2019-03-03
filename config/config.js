@@ -49,9 +49,9 @@ export default {
     ios: 7,
   },
   history: 'hash',
-  // outputPath: './deploy/defends',
+  outputPath: './deploy/defends',
   hash: true,
-  // publicPath: '/app/defends/',
+  publicPath: '/app/defends/',
   alias: {
     '@': path.resolve(__dirname, 'src'),
     utils: path.resolve(__dirname, './src/utils'),

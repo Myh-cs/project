@@ -1,6 +1,6 @@
 import axios from 'axios';
 // import errMap from './errMap'
-axios.defaults.baseURL='/qtyx/'
+// axios.defaults.baseURL = '/qtyx/';
 // axios.interceptors.request.use(
 //   (config) => {
 //     const newConfig = config
