@@ -34,38 +34,70 @@ class Index extends PureComponent {
     dispatch({ type: 'kaoqin/getdefendType', payload: { type: 2 } });
     dispatch({ type: 'kaoqin/getdefendType', payload: { type: 3 } });
     dispatch({ type: 'kaoqin/getdefendType', payload: { type: 4 } });
-    this.getPosition();
+    // this.getPosition();
   }
+
+  // getPosition = () => {
+  //   const that = this;
+  //   const map = new BMap.Map('Bmap');
+  //   const geolocation = new BMap.Geolocation();
+  //   geolocation.getCurrentPosition(
+  //     function(r) {
+  //       if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+  //         var mk = new BMap.Marker(r.point);
+  //         var myGeo = new BMap.Geocoder();
+  //         map.addOverlay(mk);
+  //         map.panTo(r.point);
+  //         myGeo.getLocation(r.point, rs => {
+  //           try {
+  //             console.log(r.point);
+  //             let { district, province, city, street, streetNumber } = rs.addressComponents;
+  //             that.setState({
+  //               address: `${province}${city}${district}${street}${streetNumber}`,
+  //               longitude: r.point.lng,
+  //               latitude: r.point.lat,
+  //             });
+  //           } catch (e) {
+  //             Toast.fail('获取城市信息失败', e);
+  //           }
+  //         });
+  //       } else {
+  //         Toast.fail('failed' + this.getStatus());
+  //       }
+  //     },
+  //     { enableHighAccuracy: true }
+  //   );
+  // };
 
   getPosition = () => {
     const that = this;
-    const map = new BMap.Map('Bmap');
-    const geolocation = new BMap.Geolocation();
-    geolocation.getCurrentPosition(
-      function(r) {
-        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-          var mk = new BMap.Marker(r.point);
-          var myGeo = new BMap.Geocoder();
-          map.addOverlay(mk);
-          map.panTo(r.point);
-          myGeo.getLocation(r.point, rs => {
-            try {
-              console.log(r.point);
-              let { district, province, city, street, streetNumber } = rs.addressComponents;
-              that.setState({
-                address: `${province}${city}${district}${street}${streetNumber}`,
-                longitude: r.point.lng,
-                latitude: r.point.lat,
-              });
-            } catch (e) {
-              Toast.fail('获取城市信息失败', e);
-            }
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        //获取地理位置成功时所做的处理
+        var gpsPoint = new BMap.Point(position.coords.longitude, position.coords.latitude);
+        var convertor = new BMap.Convertor();
+        convertor.translate([gpsPoint], 0, 0, function(p) {
+          var geoc = new BMap.Geocoder();
+          geoc.getLocation(gpsPoint, function(rs) {
+            var { province, city, district, street, streetNumber } = rs.addressComponents;
+            that.setState({
+              address: `${province}${city}${district}${street}${streetNumber}`,
+              longitude: gpsPoint.lng,
+              latitude: gpsPoint.lat,
+            });
           });
-        } else {
-          Toast.fail('failed' + this.getStatus());
-        }
+        });
       },
-      { enableHighAccuracy: true }
+      function(error) {
+        //获取地理位置信息失败时所做的处理
+        console.log(error);
+        that.setState({ address: '获取地理位置信息失败' });
+      }, //以下是可选属性
+      {
+        enableHighAccuracy: true, //是否要求高精度的地理位置信息
+        timeout: 1000, //对地理位置信息的获取操作做超时限制，如果再该事件内未获取到地理位置信息，将返回错误
+        maximumAge: 0, //设置缓存有效时间，在该时间段内，获取的地理位置信息还是设置此时间段之前的那次获得的信息，超过这段时间缓存的位置信息会被废弃
+      }
     );
   };
 
