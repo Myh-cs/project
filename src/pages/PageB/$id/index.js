@@ -30,6 +30,7 @@ class Index extends PureComponent {
     dispatch({ type: 'kaoqin/getdefendType', payload: { type: 3 } });
     dispatch({ type: 'kaoqin/getdefendType', payload: { type: 4 } });
     dispatch({ type: 'kaoqin/getdefendType', payload: { type: 5 } });
+    dispatch({ type: 'kaoqin/getJurEmp' });
   }
 
   linkTo = url => {
@@ -45,7 +46,7 @@ class Index extends PureComponent {
       },
     } = this.props;
     const { modelState, dispatch, history } = this.props;
-    const { detail, discussList, defendDiscuss } = modelState;
+    const { detail, discussList, defendDiscuss, getJurEmp = [], uid } = modelState;
     console.log(discussList);
     return (
       <div>
@@ -265,6 +266,7 @@ class Index extends PureComponent {
                   this.linkTo(`/PageB/${id}/kaohe`);
                 }}
                 type="primary"
+                disabled={!getJurEmp.find(v => v.id === uid)}
                 inline
               >
                 考核

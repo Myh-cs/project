@@ -133,3 +133,11 @@ export function getDefendDiscuss({ defendId }) {
     params: { defendId },
   });
 }
+
+// 获取权限人员列表
+export function getJurEmp() {
+  return axios({
+    url: '/app/defend/getJurEmp.do',
+    method: 'get',
+  });
+}

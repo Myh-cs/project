@@ -19,6 +19,7 @@ export default {
     typeDetail5: [],
     projectList: [],
     detail: {},
+    getJurEmp: [],
     discussList: [],
     defendDiscuss: [],
     page: 0,
@@ -254,6 +255,18 @@ export default {
 
         yield put({ type: 'save', payload: { defendDiscuss: data } });
         console.log(data, 'defendDiscuss');
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    *getJurEmp({ payload }, { call, put }) {
+      try {
+        const {
+          data: { data },
+        } = yield call(Service.getJurEmp);
+
+        yield put({ type: 'save', payload: { getJurEmp: data } });
+        console.log(data, 'getJurEmp');
       } catch (err) {
         console.log(err);
       }
