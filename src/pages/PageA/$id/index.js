@@ -8,10 +8,11 @@
 import React, { PureComponent } from 'react';
 import { InputItem, TextareaItem, List, Toast, Button } from 'antd-mobile';
 import { connect } from 'dva';
+import Link from 'umi/link';
 import { createForm } from 'rc-form';
 import styles from './index.less';
-import LeftList from '../components/LeftList';
-import RightList from '../components/RightList';
+import LeftList from '../../components/LeftList';
+import RightList from '../../components/RightList';
 
 class Index extends PureComponent {
   componentDidMount() {
@@ -41,6 +42,9 @@ class Index extends PureComponent {
   render() {
     const {
       form: { getFieldProps },
+      match: {
+        params: { id },
+      },
     } = this.props;
     const { modelState, dispatch, history } = this.props;
     const { detail } = modelState;
@@ -144,6 +148,9 @@ class Index extends PureComponent {
             rows={4}
           />
         </List>
+        <Link to={`/PageA/${id}/input`}>
+          <Button type='primary'>维护记录录入</Button>
+        </Link>
       </div>
     );
   }

@@ -15,7 +15,7 @@ export default {
           webpackChunkName: true,
         },
         title: {
-          defaultTitle: '考勤',
+          defaultTitle: '维护计划',
         },
         dll: false,
         pwa: false,
@@ -48,10 +48,10 @@ export default {
     android: 6,
     ios: 7,
   },
-  history:'hash',
-  outputPath: './deploy/dist',
+  history: 'hash',
+  // outputPath: './deploy/defends',
   hash: true,
-  publicPath:'/app/dist/',
+  // publicPath: '/app/defends/',
   alias: {
     '@': path.resolve(__dirname, 'src'),
     utils: path.resolve(__dirname, './src/utils'),

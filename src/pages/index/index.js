@@ -24,6 +24,10 @@ class Index extends PureComponent {
     dispatch({ type: 'kaoqin/save', payload: { uid } });
     dispatch({ type: 'kaoqin/detailList', payload: { uid, status: 1 } });
     Toast.hide();
+    const Bmap = document.createElement('script');
+    Bmap.src = 'http://api.map.baidu.com/api?v=2.0&ak=您的密钥';
+    Bmap.type = 'text/javascript';
+    document.getElementsByTagName('head')[0].appendChild(Bmap);
   }
 
   createPlan = () => {
@@ -93,22 +97,12 @@ class Index extends PureComponent {
           }}
         >
           <div>
-            <LeftList data={detailList} />
+            <LeftList data={detailList.filter(v => v.status === '1')} />
           </div>
           <div>
-            <RightList data={detailList2} />
+            <RightList data={detailList2.filter(v => v.status !== '1')} />
           </div>
         </Tabs>
-        <Button
-          className="back"
-          type="ghost"
-          size="small"
-          onClick={() => {
-            history.goBack();
-          }}
-        >
-          {'<'}
-        </Button>
       </div>
     );
   }

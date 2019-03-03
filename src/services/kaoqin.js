@@ -1,9 +1,10 @@
 import axios from '@/utils/axios';
+import Qs from 'querystring';
 
 export function detailList(params) {
   // 维护列表
   return axios({
-    url: '/qtyx/app/defend/detailList.do',
+    url: '/app/defend/detailList.do',
     method: 'post',
     params: { ...params, pageSize: 1000 },
   });
@@ -12,7 +13,7 @@ export function detailList(params) {
 export function getCustomer(params) {
   // 查询客户
   return axios({
-    url: '/qtyx/app/defend/getCustomer.do',
+    url: '/app/defend/getCustomer.do',
     method: 'get',
     params: { ...params, pageSize: 1000 },
   });
@@ -21,24 +22,35 @@ export function getCustomer(params) {
 // 维护列表页面检索客户经理
 export function getEmployee({ uid }) {
   return axios({
-    url: `/qtyx/app/defend/getEmployee.do`,
+    url: `/app/defend/getEmployee.do`,
     method: 'get',
     params: { id: uid },
   });
 }
 // 添加维护信息
 export function addDetail(data) {
+  console.log(data);
   return axios({
-    url: `/qtyx//app/defend/addDetail.do`,
-    method: 'get',
+    url: `/app/defend/addDetail.do`,
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    transformRequest: [
+      function(data) {
+        data = Qs.stringify(data);
+        return data;
+      },
+    ],
     data,
+    params: { uid: data.uid },
   });
 }
 
 // 添加维护时查询联系人
 export function getContact({ clientId }) {
   return axios({
-    url: '/qtyx/app/defend/getContact.do',
+    url: '/app/defend/getContact.do',
     method: 'get',
     params: { clientId, pageSize: 200 },
   });
@@ -47,7 +59,7 @@ export function getContact({ clientId }) {
 export function getdefendType({ type }) {
   // 维护类型接口
   return axios({
-    url: '/qtyx/app/defend/getdefendType.do',
+    url: '/app/defend/getdefendType.do',
     method: 'get',
     params: { type, pageSize: 200 },
   });
@@ -58,7 +70,7 @@ export function getdefendType({ type }) {
 export function projectList({ clientId, projectName }) {
   // type	标识	string	Y	1计划维护类型2常规维护类型3完成结果4完成质量
   return axios({
-    url: '/qtyx/app/defend/projectList.do',
+    url: '/app/defend/projectList.do',
     method: 'get',
     params: { clientId, projectName, pageSize: 200 },
   });
@@ -69,7 +81,7 @@ export function detail({ detailId }) {
   // type	标识	string	Y	1计划维护类型2常规维护类型3完成结果4完成质量
   // 维护类型接口
   return axios({
-    url: '/qtyx/app/defend/detail.do',
+    url: '/app/defend/detail.do',
     method: 'get',
     params: { detailId, pageSize: 200 },
   });
@@ -79,8 +91,9 @@ export function detail({ detailId }) {
 export function addDisscuss({ uid, planId, detail }) {
   // type	标识	string	Y	1计划维护类型2常规维护类型3完成结果4完成质量
   // 维护类型接口
+  console.log(detail, 'service');
   return axios({
-    url: '/qtyx/app/defend/addDisscuss.do',
+    url: '/app/defend/addDisscuss.do',
     method: 'post',
     params: { uid, planId, detail },
   });
@@ -91,7 +104,7 @@ export function getDiscuss({ planId }) {
   // type	标识	string	Y	1计划维护类型2常规维护类型3完成结果4完成质量
   // 维护类型接口
   return axios({
-    url: '/qtyx/app/defend/getDiscuss.do',
+    url: '/app/defend/getDiscuss.do',
     method: 'get',
     params: { planId },
   });

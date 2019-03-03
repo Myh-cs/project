@@ -13,6 +13,9 @@ export default {
     employee: [],
     contact: [],
     typeDetail: [],
+    typeDetail2: [],
+    typeDetail3: [],
+    typeDetail4: [],
     projectList: [],
     detail: {},
     discussList: [],
@@ -52,7 +55,9 @@ export default {
     *getCustomer({ payload }, { call, put }) {
       try {
         const {
-          data: { data },
+          data: {
+            data: { data },
+          },
         } = yield call(Service.getCustomer, payload);
 
         yield put({ type: 'save', payload: { customerList: data } });
@@ -83,8 +88,12 @@ export default {
       try {
         const {
           data: { data },
-        } = yield call(Service.addDetail, { values });
-
+        } = yield call(Service.addDetail, { ...values });
+        if (values.status === 1) {
+          router.go(-2);
+        } else {
+          router.goBack();
+        }
         console.log(data, 'fetchDateList,personList');
       } catch (err) {
         console.log(err);
@@ -120,7 +129,22 @@ export default {
           },
         } = yield call(Service.getdefendType, { type });
         console.log(codes);
-        yield put({ type: 'save', payload: { typeDetail: codes } });
+        switch (type) {
+          case 1:
+            yield put({ type: 'save', payload: { typeDetail: codes } });
+            break;
+          case 2:
+            yield put({ type: 'save', payload: { typeDetail2: codes } });
+            break;
+          case 3:
+            yield put({ type: 'save', payload: { typeDetail3: codes } });
+            break;
+          case 4:
+            yield put({ type: 'save', payload: { typeDetail4: codes } });
+            break;
+          default:
+            break;
+        }
       } catch (err) {
         console.log(err);
       }
@@ -169,7 +193,8 @@ export default {
         const {
           data: { data },
         } = yield call(Service.addDisscuss, { uid, planId, detail });
-
+        Toast.success('评论成功');
+        router.goBack();
         console.log(data, 'fetchaddDisscuss');
       } catch (err) {
         console.log(err);

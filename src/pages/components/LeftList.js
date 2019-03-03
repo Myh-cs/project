@@ -28,7 +28,7 @@ class MonthList extends React.PureComponent {
                   this.onCheck(item.id);
                 }}
               >
-                {item.proName}
+                {item.customerName}
                 <Brief>
                   {item.defendUserName}/{item.defendTypeNm}
                 </Brief>

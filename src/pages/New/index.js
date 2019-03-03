@@ -12,6 +12,7 @@ import { createForm } from 'rc-form';
 import styles from './index.less';
 import LeftList from '../components/LeftList';
 import RightList from '../components/RightList';
+import moment from 'moment';
 
 class Index extends PureComponent {
   componentDidMount() {
@@ -20,9 +21,9 @@ class Index extends PureComponent {
       modelState: { status, uid },
       loading,
     } = this.props;
+    dispatch({ type: 'kaoqin/getCustomer', payload: { uid } });
     dispatch({ type: 'kaoqin/getEmployee', payload: { uid } });
     dispatch({ type: 'kaoqin/getdefendType', payload: { type: 1 } });
-
     console.log(uid, status, loading, this.props.modelState);
   }
 
@@ -30,11 +31,41 @@ class Index extends PureComponent {
     const {
       form: { validateFields },
       dispatch,
-      modelState: { status },
+      modelState: { status, uid },
     } = this.props;
     validateFields((err, values) => {
       if (!err) {
-        dispatch({ type: 'kaoqin/addDetail', payload: { values } });
+        console.log(values, 'values');
+        const value = {
+          ...values,
+          ContantNumber: values.ContantNumber ? values.ContantNumber[0] : '',
+          customerNumber: values.customerNumber ? values.customerNumber[0] : '',
+          defendType: values.defendType ? values.defendType[0] : '',
+          defendUserId: values.defendUserId ? values.defendUserId[0] : '',
+          otherUsersId: values.otherUsersId ? values.otherUsersId[0] : '',
+          proDbid: values.proDbid ? values.proDbid[0] : '',
+          createUser: uid,
+          uid,
+          startTime: moment(values.startTime).format('YYYY-MM-DD HH:mm:ss'),
+          endTime: moment(values.endTime).format('YYYY-MM-DD HH:mm:ss'),
+        };
+        dispatch({ type: 'kaoqin/addDetail', payload: { values: value } });
+      } else {
+        const arry = [];
+        Object.keys(err).forEach(key => {
+          err[key].errors.forEach(error => {
+            arry.push(error.message);
+          });
+        });
+        Toast.fail(
+          <div>
+            {arry.map((v, i) => (
+              <div>
+                {i}:{v}
+              </div>
+            ))}
+          </div>
+        );
       }
       console.log(values);
       console.log(err);
@@ -57,6 +88,9 @@ class Index extends PureComponent {
       form: { getFieldProps },
     } = this.props;
     const { modelState, dispatch, history } = this.props;
+    console.log(modelState.customerList, 'customerList');
+    console.log(modelState.contact, 'contact');
+    console.log(modelState.projectList, 'projectList');
 
     return (
       <div>
@@ -78,9 +112,11 @@ class Index extends PureComponent {
           <Picker
             cols={1}
             extra="客户名称"
-            data={modelState.employee.map(v => ({ value: v.id, label: v.name }))}
+            data={modelState.customerList.map(v => ({ value: v.id, label: v.customerName }))}
             title="客户名称"
-            {...getFieldProps('customerName', {})}
+            {...getFieldProps('customerNumber', {
+              rules: [{ required: true, message: '请选择客户名称' }],
+            })}
             onOk={this.onSelectClient}
           >
             <List.Item arrow="horizontal">客户名称</List.Item>
@@ -88,18 +124,18 @@ class Index extends PureComponent {
           <Picker
             cols={1}
             extra="联系人"
-            data={modelState.contact.map(v => ({ value: v.id, label: v.name }))}
+            data={modelState.contact.map(v => ({ value: v.id, label: v.customerContactName }))}
             title="联系人"
-            {...getFieldProps('contantName', {})}
+            {...getFieldProps('ContantNumber', {})}
           >
             <List.Item arrow="horizontal">联系人</List.Item>
           </Picker>
           <Picker
             cols={1}
             extra="关联项目"
-            data={modelState.projectList.map(v => ({ value: v.id, label: v.name }))}
+            data={modelState.projectList.map(v => ({ value: v.projectId, label: v.projectName }))}
             title="关联项目"
-            {...getFieldProps('projectName', {})}
+            {...getFieldProps('proDbid', {})}
           >
             <List.Item arrow="horizontal">关联项目</List.Item>
           </Picker>
@@ -108,27 +144,32 @@ class Index extends PureComponent {
             extra="维护类型"
             data={modelState.typeDetail.map(v => ({ value: v.codeId, label: v.codeName }))}
             title="维护类型"
-            {...getFieldProps('defendTypeNm', {})}
+            {...getFieldProps('defendType', {
+              rules: [{ required: true, message: '请选择维护类型' }],
+            })}
           >
             <List.Item arrow="horizontal">维护类型</List.Item>
           </Picker>
-          <InputItem
-            style={{ background: '#fff' }}
-            {...getFieldProps('defendUser')}
-            clear
-            placeholder="维护人"
+          <Picker
+            cols={1}
+            extra="维护人"
+            data={modelState.employee.map(v => ({ value: v.id, label: v.name }))}
+            title="维护人"
+            {...getFieldProps('defendUserId', {})}
           >
-            <span className={styles.small}> 维护人</span>
-          </InputItem>
-          <InputItem
-            style={{ background: '#fff' }}
-            {...getFieldProps('otherDefend')}
-            clear
-            placeholder="其他人员"
+            <List.Item arrow="horizontal">维护人</List.Item>
+          </Picker>
+          <Picker
+            cols={1}
+            extra="其他人员"
+            data={modelState.employee.map(v => ({ value: v.id, label: v.name }))}
+            title="其他人员"
+            {...getFieldProps('otherUsersId', {})}
           >
-            <span className={styles.small}> 其他人员</span>
-          </InputItem>
+            <List.Item arrow="horizontal">其他人员</List.Item>
+          </Picker>
           <DatePicker
+            format="YYYY-MM-DD HH:mm:ss"
             {...getFieldProps('startTime', {
               rules: [{ required: true, message: '请选择开始时间' }],
             })}
@@ -136,6 +177,7 @@ class Index extends PureComponent {
             <List.Item arrow="horizontal">计划开始时间</List.Item>
           </DatePicker>
           <DatePicker
+            format="YYYY-MM-DD HH:mm:ss"
             {...getFieldProps('endTime', {
               rules: [{ required: true, message: '请选择完成时间' }],
             })}
@@ -146,11 +188,15 @@ class Index extends PureComponent {
         <List renderHeader={() => '计划维护内容'}>
           <TextareaItem
             style={{ background: '#fff' }}
-            {...getFieldProps('defendContent')}
+            {...getFieldProps('defendContent', {
+              rules: [{ required: true, message: '请选择开始时间' }],
+            })}
             rows={4}
           />
         </List>
-        <Button onClick={this.onSubmit}>保存</Button>
+        <Button type="primary" onClick={this.onSubmit}>
+          保存
+        </Button>
       </div>
     );
   }
