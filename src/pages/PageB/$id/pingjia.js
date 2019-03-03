@@ -45,12 +45,38 @@ class Index extends PureComponent {
     const {
       form: { validateFields },
       dispatch,
-      modelState: { status },
+      match: {
+        params: { id },
+      },
+      modelState: { status, uid },
     } = this.props;
     validateFields((err, values) => {
-      // if (!err) {
-      //   dispatch({ type: 'kaoqin/addDetail', payload: { values } });
-      // }
+      if (!err) {
+        const value = {
+          ...values,
+          status: 2,
+          discuss: values.discuss,
+          overType: values.overType[0] - 0,
+          defendId: id,
+        };
+        dispatch({ type: 'kaoqin/addDefendDisscuss', payload: { values: value } });
+      } else {
+        const arry = [];
+        Object.keys(err).forEach(key => {
+          err[key].errors.forEach(error => {
+            arry.push(error.message);
+          });
+        });
+        Toast.fail(
+          <div>
+            {arry.map((v, i) => (
+              <div>
+                {i}:{v}
+              </div>
+            ))}
+          </div>
+        );
+      }
       console.log(values);
       console.log(err);
       console.log(status);
@@ -87,24 +113,18 @@ class Index extends PureComponent {
           <List>
             <TextareaItem
               style={{ background: '#fff' }}
-              {...getFieldProps('count', {
-                initialValue: detail.defendContent,
-              })}
+              {...getFieldProps('discuss', {})}
               rows={4}
             />
           </List>
           <List.Item wrap thumb={<span>满意度</span>}>
-            {getFieldDecorator('checkbox-group', {
-              initialValue: ['A', 'B'],
-            })(
+            {getFieldDecorator('overType')(
               <Checkbox.Group style={{ width: '100%' }}>
-                <Checkbox value="A">完成优秀，非常满意</Checkbox>
-                <Checkbox value="B">
-                完成良好，满意
-                </Checkbox>
-                <Checkbox value="C">完成一般，认可</Checkbox>
-                <Checkbox value="D">完成不好，不满意</Checkbox>
-                <Checkbox value="E">未完成</Checkbox>
+                {modelState.typeDetail5.map(v => (
+                  <Checkbox key={v.codeId} value={v.codeId}>
+                    {v.codeName}
+                  </Checkbox>
+                ))}
               </Checkbox.Group>
             )}
           </List.Item>

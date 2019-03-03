@@ -20,7 +20,7 @@ export default {
         dll: false,
         pwa: false,
         hd: false,
-        fastClick: true,
+        fastClick: false,
         routes: {
           exclude: [],
         },

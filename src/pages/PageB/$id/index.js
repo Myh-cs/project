@@ -24,11 +24,18 @@ class Index extends PureComponent {
       },
     } = this.props;
     dispatch({ type: 'kaoqin/detail', payload: { detailId: id } });
+    dispatch({ type: 'kaoqin/getDefendDiscuss', payload: { defendId: id } });
     dispatch({ type: 'kaoqin/getDiscuss', payload: { planId: id } });
     dispatch({ type: 'kaoqin/getdefendType', payload: { type: 2 } });
     dispatch({ type: 'kaoqin/getdefendType', payload: { type: 3 } });
     dispatch({ type: 'kaoqin/getdefendType', payload: { type: 4 } });
+    dispatch({ type: 'kaoqin/getdefendType', payload: { type: 5 } });
   }
+
+  linkTo = url => {
+    console.log(url, 123);
+    this.props.history.push(url);
+  };
 
   render() {
     const {
@@ -38,7 +45,7 @@ class Index extends PureComponent {
       },
     } = this.props;
     const { modelState, dispatch, history } = this.props;
-    const { detail, discussList } = modelState;
+    const { detail, discussList, defendDiscuss } = modelState;
     console.log(discussList);
     return (
       <div>
@@ -210,11 +217,17 @@ class Index extends PureComponent {
           <Card.Header
             title="用户评价"
             extra={
-              <Link to={`/PageB/${id}/pingjia`}>
-                <Button size="small" type="primary" inline>
-                  评论
-                </Button>
-              </Link>
+              <Button
+                size="small"
+                onClick={() => {
+                  this.linkTo(`/PageB/${id}/pingjia`);
+                }}
+                disabled={defendDiscuss.length}
+                type="primary"
+                inline
+              >
+                评论
+              </Button>
             }
           />
           <Card.Body>
@@ -222,22 +235,21 @@ class Index extends PureComponent {
               <TextareaItem
                 disabled
                 style={{ background: '#fff' }}
-                {...getFieldProps('count', {
-                  initialValue: detail.defendContent,
-                })}
+                {...getFieldProps('count', {})}
+                value={defendDiscuss.length ? defendDiscuss[0].discuss : ''}
                 rows={4}
               />
             </List>
             <List.Item wrap thumb={<span>完成情况</span>}>
-              {getFieldDecorator('checkbox-group', {
-                initialValue: ['A', 'B'],
+              {getFieldDecorator('overType', {
+                initialValue: defendDiscuss.length ? defendDiscuss[0].overType : '',
               })(
                 <Checkbox.Group disabled style={{ width: '100%' }}>
-                  <Checkbox value="A">完成优秀，非常满意</Checkbox>
-                  <Checkbox value="B">完成良好，满意</Checkbox>
-                  <Checkbox value="C">完成一般，认可</Checkbox>
-                  <Checkbox value="D">完成不好，不满意</Checkbox>
-                  <Checkbox value="E">未完成</Checkbox>
+                  {modelState.typeDetail5.map(v => (
+                    <Checkbox key={v.codeId} value={v.codeId}>
+                      {v.codeName}
+                    </Checkbox>
+                  ))}
                 </Checkbox.Group>
               )}
             </List.Item>
@@ -247,11 +259,16 @@ class Index extends PureComponent {
           <Card.Header
             title="部门考核"
             extra={
-              <Link to={`/PageB/${id}/kaohe`}>
-                <Button size="small" type="primary" inline>
-                  考核
-                </Button>
-              </Link>
+              <Button
+                size="small"
+                onClick={() => {
+                  this.linkTo(`/PageB/${id}/kaohe`);
+                }}
+                type="primary"
+                inline
+              >
+                考核
+              </Button>
             }
           />
           <Card.Body>
@@ -289,11 +306,16 @@ class Index extends PureComponent {
           <Card.Header
             title="评论"
             extra={
-              <Link to={`/PageB/${id}/pinglun`}>
-                <Button size="small" type="primary" inline>
-                  评论
-                </Button>
-              </Link>
+              <Button
+                size="small"
+                onClick={() => {
+                  this.linkTo(`/PageB/${id}/pinglun`);
+                }}
+                type="primary"
+                inline
+              >
+                评论
+              </Button>
             }
           />
           <Card.Body>

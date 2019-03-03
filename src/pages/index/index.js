@@ -13,6 +13,11 @@ import LeftList from '../components/LeftList';
 import RightList from '../components/RightList';
 
 class Index extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = { filter: '' };
+  }
+
   componentDidMount() {
     const {
       dispatch,
@@ -45,6 +50,7 @@ class Index extends PureComponent {
   };
 
   onSearchChange = value => {
+    this.setState({ filter: value });
     console.log(value);
   };
 
@@ -52,9 +58,9 @@ class Index extends PureComponent {
     console.log(value, 'sub');
   };
 
-  onClear= value =>{
+  onClear = value => {
     console.log(value, 'clear');
-  }
+  };
 
   onChange = (tab, index) => {
     const { dispatch } = this.props;
@@ -105,9 +111,9 @@ class Index extends PureComponent {
           </Button>
         </div>
         <div>
-          <SegmentedControl values={['Segment1', 'Segment2']} onValueChange={this.onValueChange} />
+          <SegmentedControl values={['客户名称', '人员名称']} onValueChange={this.onValueChange} />
           <SearchBar
-            placeholder="Search"
+            placeholder="客户名称/人员名称"
             onChange={this.onSearchChange}
             onSubmit={this.onSubmit}
             onClear={this.onClear}
@@ -123,10 +129,24 @@ class Index extends PureComponent {
           }}
         >
           <div>
-            <LeftList data={detailList.filter(v => v.status === '1')} />
+            <LeftList
+              data={detailList.filter(
+                v =>
+                  v.status === '1' &&
+                  (v.customerName.match(this.state.filter) ||
+                    v.defendUserName.match(this.state.filter))
+              )}
+            />
           </div>
           <div>
-            <RightList data={detailList2.filter(v => v.status !== '1')} />
+            <RightList
+              data={detailList2.filter(
+                v =>
+                  v.status !== '1' &&
+                  (v.customerName.match(this.state.filter) ||
+                    v.defendUserName.match(this.state.filter))
+              )}
+            />
           </div>
         </Tabs>
       </div>

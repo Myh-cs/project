@@ -6,7 +6,7 @@ export function detailList(params) {
   return axios({
     url: '/app/defend/detailList.do',
     method: 'post',
-    params: { ...params, pageSize: 1000 },
+    params: { ...params, pageSize: 5000 },
   });
 }
 
@@ -15,7 +15,7 @@ export function getCustomer(params) {
   return axios({
     url: '/app/defend/getCustomer.do',
     method: 'get',
-    params: { ...params, pageSize: 1000 },
+    params: { ...params, pageSize: 5000 },
   });
 }
 
@@ -52,7 +52,7 @@ export function getContact({ clientId }) {
   return axios({
     url: '/app/defend/getContact.do',
     method: 'get',
-    params: { clientId, pageSize: 200 },
+    params: { clientId, pageSize: 5000 },
   });
 }
 
@@ -61,7 +61,7 @@ export function getdefendType({ type }) {
   return axios({
     url: '/app/defend/getdefendType.do',
     method: 'get',
-    params: { type, pageSize: 200 },
+    params: { type, pageSize: 5000 },
   });
 }
 
@@ -72,7 +72,7 @@ export function projectList({ clientId, projectName }) {
   return axios({
     url: '/app/defend/projectList.do',
     method: 'get',
-    params: { clientId, projectName, pageSize: 200 },
+    params: { clientId, projectName, pageSize: 5000 },
   });
 }
 
@@ -83,7 +83,7 @@ export function detail({ detailId }) {
   return axios({
     url: '/app/defend/detail.do',
     method: 'get',
-    params: { detailId, pageSize: 200 },
+    params: { detailId, pageSize: 5000 },
   });
 }
 
@@ -99,6 +99,18 @@ export function addDisscuss({ uid, planId, detail }) {
   });
 }
 
+// 添加评价
+export function addDefendDisscuss({ discuss, overType, defendId }) {
+  // type	标识	string	Y	1计划维护类型2常规维护类型3完成结果4完成质量
+  // 维护类型接口
+  console.log(detail, 'service');
+  return axios({
+    url: '/app/defend/addDefendDisscuss.do',
+    method: 'post',
+    params: { discuss, overType, defendId },
+  });
+}
+
 // 查看评论
 export function getDiscuss({ planId }) {
   // type	标识	string	Y	1计划维护类型2常规维护类型3完成结果4完成质量
@@ -107,5 +119,17 @@ export function getDiscuss({ planId }) {
     url: '/app/defend/getDiscuss.do',
     method: 'get',
     params: { planId },
+  });
+}
+
+// 查看评价
+export function getDefendDiscuss({ defendId }) {
+  // type	标识	string	Y	1计划维护类型2常规维护类型3完成结果4完成质量
+  // 维护类型接口
+  console.log(defendId, 'getDefendDiscuss');
+  return axios({
+    url: '/app/defend/getDefendDiscuss.do',
+    method: 'get',
+    params: { defendId },
   });
 }

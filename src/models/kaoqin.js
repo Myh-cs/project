@@ -16,9 +16,11 @@ export default {
     typeDetail2: [],
     typeDetail3: [],
     typeDetail4: [],
+    typeDetail5: [],
     projectList: [],
     detail: {},
     discussList: [],
+    defendDiscuss: [],
     page: 0,
     uid: '',
   },
@@ -142,6 +144,9 @@ export default {
           case 4:
             yield put({ type: 'save', payload: { typeDetail4: codes } });
             break;
+          case 5:
+            yield put({ type: 'save', payload: { typeDetail5: codes } });
+            break;
           default:
             break;
         }
@@ -200,6 +205,24 @@ export default {
         console.log(err);
       }
     },
+    *addDefendDisscuss(
+      {
+        payload: { values },
+      },
+      { call, put }
+    ) {
+      try {
+        const { discuss, overType, defendId } = values;
+        const {
+          data: { data },
+        } = yield call(Service.addDefendDisscuss, { discuss, overType, defendId });
+        Toast.success('评价成功');
+        router.goBack();
+        console.log(data, 'addDefendDisscuss');
+      } catch (err) {
+        console.log(err);
+      }
+    },
     *getDiscuss(
       {
         payload: { planId },
@@ -213,6 +236,24 @@ export default {
 
         yield put({ type: 'save', payload: { discussList: data } });
         console.log(data, 'getDiscuss');
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    *getDefendDiscuss(
+      {
+        payload: { defendId },
+      },
+      { call, put }
+    ) {
+      try {
+        console.log(defendId, 'defendDiscussdefendId');
+        const {
+          data: { data },
+        } = yield call(Service.getDefendDiscuss, { defendId });
+
+        yield put({ type: 'save', payload: { defendDiscuss: data } });
+        console.log(data, 'defendDiscuss');
       } catch (err) {
         console.log(err);
       }
