@@ -228,7 +228,7 @@ class Index extends PureComponent {
                 type="primary"
                 inline
               >
-                评论
+                评价
               </Button>
             }
           />
