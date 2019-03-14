@@ -218,7 +218,7 @@ class Index extends PureComponent {
           <List.Item wrap thumb={<span>常规维护检查</span>}>
             {getFieldDecorator('rutCheckType')(
               <Checkbox.Group style={{ width: '100%' }}>
-                {modelState.typeDetail.map(v => (
+                {modelState.typeDetail2.map(v => (
                   <Checkbox value={v.codeId}>{v.codeName}</Checkbox>
                 ))}
               </Checkbox.Group>
